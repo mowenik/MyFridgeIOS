@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Продукты-->
+        <scene sceneID="K7a-XI-53W">
+            <objects>
+                <viewController storyboardIdentifier="ProductsVC" id="TPT-oa-Uda" customClass="ProductsVC" customModule="MyFridge" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="DQ9-t7-NoO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="Q2m-xq-YDl">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" red="0.95294117647058818" green="0.94117647058823528" blue="0.88627450980392153" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="Pew-aY-T4N">
+                                    <size key="itemSize" width="50" height="50"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="10" minY="10" maxX="10" maxY="10"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HB6-bf-Spa">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GLX-pl-Jno">
+                                        <rect key="frame" x="30" y="280.5" width="354" height="335"/>
+                                        <subviews>
+                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_fridge" translatesAutoresizingMaskIntoConstraints="NO" id="sTD-bw-4gr">
+                                                <rect key="frame" x="0.0" y="0.0" width="354" height="180.5"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" secondItem="sTD-bw-4gr" secondAttribute="height" multiplier="15:8" constant="16" id="j1g-C6-cJg"/>
+                                                </constraints>
+                                            </imageView>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Похоже, ваш холодильник пуст! Самое время в него что-нибудь добавить" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yJa-qo-AkJ">
+                                                <rect key="frame" x="35" y="190.5" width="284" height="68.5"/>
+                                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="19"/>
+                                                <nil key="textColor"/>
+                                                <nil key="highlightedColor"/>
+                                            </label>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9j8-Ar-4lD" customClass="ButtonWithAnimate" customModule="MyFridge" customModuleProvider="target">
+                                                <rect key="frame" x="30" y="299" width="294" height="36"/>
+                                                <color key="backgroundColor" red="0.1764705882" green="0.36470588240000001" blue="0.48627450979999998" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                                <state key="normal" title="Добавить">
+                                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                                </state>
+                                                <userDefinedRuntimeAttributes>
+                                                    <userDefinedRuntimeAttribute type="number" keyPath="cornerRadius">
+                                                        <real key="value" value="15"/>
+                                                    </userDefinedRuntimeAttribute>
+                                                    <userDefinedRuntimeAttribute type="boolean" keyPath="shadow" value="YES"/>
+                                                </userDefinedRuntimeAttributes>
+                                                <connections>
+                                                    <action selector="addButtonAction:" destination="TPT-oa-Uda" eventType="touchUpInside" id="jfk-aT-9o7"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="bottom" secondItem="9j8-Ar-4lD" secondAttribute="bottom" id="2FH-mx-dNa"/>
+                                            <constraint firstItem="yJa-qo-AkJ" firstAttribute="leading" secondItem="GLX-pl-Jno" secondAttribute="leading" constant="35" id="2ej-dX-iIi"/>
+                                            <constraint firstItem="yJa-qo-AkJ" firstAttribute="top" secondItem="sTD-bw-4gr" secondAttribute="bottom" constant="10" id="8yD-km-bcx"/>
+                                            <constraint firstItem="sTD-bw-4gr" firstAttribute="leading" secondItem="GLX-pl-Jno" secondAttribute="leading" id="CWd-xs-HCh"/>
+                                            <constraint firstItem="sTD-bw-4gr" firstAttribute="top" secondItem="GLX-pl-Jno" secondAttribute="top" id="IPY-qW-hyP"/>
+                                            <constraint firstAttribute="trailing" secondItem="sTD-bw-4gr" secondAttribute="trailing" id="U42-zp-22w"/>
+                                            <constraint firstAttribute="trailing" secondItem="9j8-Ar-4lD" secondAttribute="trailing" constant="30" id="Vsc-bI-PVI"/>
+                                            <constraint firstItem="9j8-Ar-4lD" firstAttribute="top" secondItem="yJa-qo-AkJ" secondAttribute="bottom" constant="40" id="bXN-lf-qG6"/>
+                                            <constraint firstAttribute="trailing" secondItem="yJa-qo-AkJ" secondAttribute="trailing" constant="35" id="cTN-hG-gpq"/>
+                                            <constraint firstItem="9j8-Ar-4lD" firstAttribute="leading" secondItem="GLX-pl-Jno" secondAttribute="leading" constant="30" id="gPY-PK-Fcr"/>
+                                            <constraint firstItem="9j8-Ar-4lD" firstAttribute="centerX" secondItem="GLX-pl-Jno" secondAttribute="centerX" id="n1z-hS-eFv"/>
+                                        </constraints>
+                                    </view>
+                                </subviews>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstItem="GLX-pl-Jno" firstAttribute="centerY" secondItem="HB6-bf-Spa" secondAttribute="centerY" id="7FD-ae-UPC"/>
+                                    <constraint firstItem="GLX-pl-Jno" firstAttribute="leading" secondItem="HB6-bf-Spa" secondAttribute="leading" constant="30" id="Bos-yO-som"/>
+                                    <constraint firstItem="GLX-pl-Jno" firstAttribute="centerX" secondItem="HB6-bf-Spa" secondAttribute="centerX" id="Hsh-Hj-s6q"/>
+                                    <constraint firstAttribute="trailing" secondItem="GLX-pl-Jno" secondAttribute="trailing" constant="30" id="gVP-cq-jko"/>
+                                </constraints>
+                                <viewLayoutGuide key="safeArea" id="vbn-jF-QPG"/>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Q2m-xq-YDl" secondAttribute="bottom" id="6ML-24-ufQ"/>
+                            <constraint firstItem="HB6-bf-Spa" firstAttribute="top" secondItem="DQ9-t7-NoO" secondAttribute="top" id="D4W-VN-QgJ"/>
+                            <constraint firstItem="HB6-bf-Spa" firstAttribute="leading" secondItem="tSC-iR-b0b" secondAttribute="leading" id="Idw-oY-CWH"/>
+                            <constraint firstAttribute="bottom" secondItem="HB6-bf-Spa" secondAttribute="bottom" id="KEB-73-WQy"/>
+                            <constraint firstItem="tSC-iR-b0b" firstAttribute="trailing" secondItem="Q2m-xq-YDl" secondAttribute="trailing" id="R5m-Os-cne"/>
+                            <constraint firstItem="HB6-bf-Spa" firstAttribute="trailing" secondItem="tSC-iR-b0b" secondAttribute="trailing" id="TRR-7m-C2n"/>
+                            <constraint firstItem="Q2m-xq-YDl" firstAttribute="leading" secondItem="tSC-iR-b0b" secondAttribute="leading" id="ot8-iH-5sJ"/>
+                            <constraint firstItem="Q2m-xq-YDl" firstAttribute="top" secondItem="DQ9-t7-NoO" secondAttribute="top" id="tJW-Fy-MzI"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="tSC-iR-b0b"/>
+                    </view>
+                    <navigationItem key="navigationItem" title="Продукты" id="UNY-OM-XUw"/>
+                    <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" prompted="NO"/>
+                    <connections>
+                        <outlet property="collectionView" destination="Q2m-xq-YDl" id="FKM-v7-MJa"/>
+                        <outlet property="placeholderView" destination="HB6-bf-Spa" id="G1B-Qf-Qbg"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="UEY-cL-9LV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-145" y="98"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="placeholder_fridge" width="512" height="512"/>
+    </resources>
+</document>

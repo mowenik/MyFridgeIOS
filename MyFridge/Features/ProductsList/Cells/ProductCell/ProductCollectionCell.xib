@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="ProductCollectionCell" id="jCY-so-J0i" customClass="ProductCollectionCell" customModule="MyFridge" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="250" height="325"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
+                <rect key="frame" x="0.0" y="0.0" width="250" height="325"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wnF-w4-yRJ">
+                        <rect key="frame" x="0.0" y="0.0" width="250" height="325"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="v9U-aW-udQ">
+                                <rect key="frame" x="0.0" y="0.0" width="250" height="250"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="v9U-aW-udQ" secondAttribute="height" multiplier="1:1" id="2lm-Gn-Y4n"/>
+                                    <constraint firstAttribute="width" secondItem="v9U-aW-udQ" secondAttribute="height" multiplier="1:1" id="c3P-jm-Zrl"/>
+                                </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                        <integer key="value" value="10"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                                </userDefinedRuntimeAttributes>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Яблоко" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vpf-r4-lhn">
+                                <rect key="frame" x="10" y="260" width="230" height="20.5"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" text="до 21.05.19" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NlK-my-HfW">
+                                <rect key="frame" x="81" y="290.5" width="88" height="24.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <color key="textColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="Vpf-r4-lhn" secondAttribute="trailing" constant="10" id="3xl-B1-ScJ"/>
+                            <constraint firstItem="v9U-aW-udQ" firstAttribute="leading" secondItem="wnF-w4-yRJ" secondAttribute="leading" id="664-fn-qGz"/>
+                            <constraint firstAttribute="trailing" secondItem="v9U-aW-udQ" secondAttribute="trailing" id="7FT-7f-ALy"/>
+                            <constraint firstItem="Vpf-r4-lhn" firstAttribute="leading" secondItem="wnF-w4-yRJ" secondAttribute="leading" constant="10" id="PeK-vI-Tof"/>
+                            <constraint firstAttribute="bottom" secondItem="NlK-my-HfW" secondAttribute="bottom" constant="10" id="Y8R-hW-GNf"/>
+                            <constraint firstItem="v9U-aW-udQ" firstAttribute="top" secondItem="wnF-w4-yRJ" secondAttribute="top" id="foP-6s-Nu3"/>
+                            <constraint firstItem="NlK-my-HfW" firstAttribute="centerX" secondItem="wnF-w4-yRJ" secondAttribute="centerX" id="jkf-f8-wsy"/>
+                            <constraint firstItem="Vpf-r4-lhn" firstAttribute="top" secondItem="v9U-aW-udQ" secondAttribute="bottom" constant="10" id="k8G-Ra-eGw"/>
+                            <constraint firstItem="NlK-my-HfW" firstAttribute="top" secondItem="Vpf-r4-lhn" secondAttribute="bottom" constant="10" id="rFY-yn-19a"/>
+                        </constraints>
+                        <userDefinedRuntimeAttributes>
+                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                <integer key="value" value="10"/>
+                            </userDefinedRuntimeAttribute>
+                            <userDefinedRuntimeAttribute type="boolean" keyPath="layer.masksToBounds" value="YES"/>
+                        </userDefinedRuntimeAttributes>
+                    </view>
+                </subviews>
+            </view>
+            <constraints>
+                <constraint firstAttribute="bottom" secondItem="wnF-w4-yRJ" secondAttribute="bottom" id="1JU-HQ-JlJ"/>
+                <constraint firstItem="wnF-w4-yRJ" firstAttribute="top" secondItem="jCY-so-J0i" secondAttribute="top" id="8QM-KH-a4D"/>
+                <constraint firstItem="wnF-w4-yRJ" firstAttribute="leading" secondItem="jCY-so-J0i" secondAttribute="leading" id="XOz-KH-s3D"/>
+                <constraint firstAttribute="trailing" secondItem="wnF-w4-yRJ" secondAttribute="trailing" id="lbD-bp-Olb"/>
+            </constraints>
+            <viewLayoutGuide key="safeArea" id="iS3-c2-u00"/>
+            <size key="customSize" width="261" height="297"/>
+            <connections>
+                <outlet property="productImage" destination="v9U-aW-udQ" id="WcV-Iz-m1j"/>
+                <outlet property="productName" destination="Vpf-r4-lhn" id="cU2-XD-XWh"/>
+                <outlet property="shelfLifeLabel" destination="NlK-my-HfW" id="v7V-VP-DYi"/>
+            </connections>
+            <point key="canvasLocation" x="97.101449275362327" y="186.49553571428569"/>
+        </collectionViewCell>
+    </objects>
+</document>
