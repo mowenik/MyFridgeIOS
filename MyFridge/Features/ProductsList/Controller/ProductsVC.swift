@@ -8,6 +8,7 @@
 
 import UIKit
 import UserNotifications
+import MBProgressHUD
 
 class ProductsVC: BaseVC {
 
@@ -19,8 +20,6 @@ class ProductsVC: BaseVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        collectionView.delegate = self
-        collectionView.dataSource = self
         collectionView.register(cellReuseID: ProductCollectionCell.reuseID)
     }
     
@@ -29,11 +28,20 @@ class ProductsVC: BaseVC {
         updateData()
     }
     
-    private func updateData() {
-        products = ProductsManager.getSavedProducts()
-        collectionView.reloadData()
+    @IBAction func updateData() {
+        setPlaceholderHidden(true)
         
-        setPlaceholderHidden(products.count != 0)
+        MBProgressHUD.showAdded(to: self.view, animated: true)
+        
+        ProductsManager.shared.updateProducts { [weak self] products in
+            guard let self = self else { return }
+            
+            MBProgressHUD.hide(for: self.view, animated: true)
+            
+            self.products = products
+            self.collectionView.reloadData()
+            self.setPlaceholderHidden(products.count != 0)
+        }
     }
     
     func setPlaceholderHidden(_ isHidden: Bool) {
@@ -47,8 +55,6 @@ class ProductsVC: BaseVC {
 
     @IBAction func addButtonAction(_ sender: Any) {
         tabBarController?.selectedIndex = 1
-        
-//        requestPermissions()
     }
     
     func requestPermissions() {

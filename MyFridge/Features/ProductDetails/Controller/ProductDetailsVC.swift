@@ -20,7 +20,6 @@ class ProductDetailsVC: BaseVC {
     
     @IBOutlet weak var nameField: UITextField!
     @IBOutlet weak var shelfLifeLabel: LabelWithActions!
-    @IBOutlet weak var daysAfterOpeningField: UITextField!
     @IBOutlet weak var barcodeImageView: UIImageView!
     
     // MARK: Constraints
@@ -87,26 +86,25 @@ class ProductDetailsVC: BaseVC {
         
         shelfLifeLabel.addText("от ")
         shelfLifeLabel.addAction(with: product.productionDate) {
-            self.showSelectDateAlert(date: self.product.storageLife.productionDate) { (date) in
-                ProductsManager.setProductionDate(date, for: self.product)
+            self.showSelectDateAlert(date: self.product.productionDate.date()) { (date) in
+                self.product.setProductionDate(date)
                 self.updateShelfLife()
             }
         }
+        
         shelfLifeLabel.addText(" до ")
         shelfLifeLabel.addAction(with: product.shelfLifeEnd) {
-            self.showSelectDateAlert(date: self.product.storageLife.shelfLifeEnd) { (date) in
-                ProductsManager.setShelfLifeEndDate(date, for: self.product)
+            self.showSelectDateAlert(date: self.product.shelfLifeEnd.date()) { date in
+                self.product.setShelfLifeEndDate(date)
                 self.updateShelfLife()
             }
         }
     }
     
     private func updateImages() {
-        titleImageView.image = product.images.first
-        
-        if product.savedImagesCount > 0 {
-            barcodeImageView.image = EAN13Generator.generateImage(fromNumber: product.barcode, size: barcodeImageView.frame.size)
-        }
+        titleImageView.setImage(for: product)
+
+        barcodeImageView.image = EAN13Generator.generateImage(fromNumber: product.barcode, size: barcodeImageView.frame.size)
     }
     
     private func showSelectDateAlert(date: Date, _ action: @escaping DatePickerViewController.Action) {
@@ -152,25 +150,23 @@ class ProductDetailsVC: BaseVC {
     @IBAction func moreButtonTapped(_ sender: Any) {
         let alert = UIAlertController(style: .actionSheet)
         
-        let save = UIAlertAction(title: "Сохранить в шаблоны", style: .default) { action in
-            ProductsManager.createTemplate(with: self.product)
+        let save = UIAlertAction(title: "Сохранить как шаблон", style: .default) { action in
+            TemplatesManager.shared.createTemplate(with: self.product) { [weak self] template in
+                // TODO: add template to templates
+            }
         }
         let addImage = UIAlertAction(title: "Добавить фото", style: .default) { action in
             self.showImagePicker()
         }
-        let deleteTitle = product.isSaved ? "В корзину" : "Удалить"
-        let delete = UIAlertAction(title: deleteTitle, style: .destructive) { action in
-            ProductsManager.remove(self.product)
-            self.navigationController?.popViewController(animated: true)
+        let delete = UIAlertAction(title: "Удалить", style: .destructive) { action in
+            ProductsManager.shared.removeProduct(self.product) { [weak self] success in
+                self?.navigationController?.popViewController(animated: true)
+            }
         }
         let cancel = UIAlertAction(title: "Отмена", style: .cancel, handler: nil)
         
-        if ProductsManager.getTemplate(for: product.barcode) == nil {
-            alert.addAction(save)
-        }
-        if product.savedImagesCount == 0 {
-            alert.addAction(addImage)
-        }
+        alert.addAction(save)
+        alert.addAction(addImage)
         alert.addAction(delete)
         alert.addAction(cancel)
         
@@ -198,7 +194,7 @@ extension ProductDetailsVC: UITextFieldDelegate {
             return
         }
         
-        ProductsManager.setName(name, for: product)
+        product.setName(name) 
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
@@ -213,7 +209,6 @@ extension ProductDetailsVC: UIScrollViewDelegate {
     
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         nameField.resignFirstResponder()
-        daysAfterOpeningField.resignFirstResponder()
         
         let offset = scrollView.contentOffset.y
         
@@ -243,8 +238,11 @@ extension ProductDetailsVC: UIImagePickerControllerDelegate & UINavigationContro
             return
         }
         
-        product.addImage(image)
-        updateImages()
+        titleImageView.addLoadingIndicator()
+        
+        product.addImage(image) { [weak self] _ in
+            self?.updateImages()
+        }
     }
     
 }

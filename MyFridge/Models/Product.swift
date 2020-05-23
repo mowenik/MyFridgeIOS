@@ -7,55 +7,104 @@
 //
 
 import Foundation
-import RealmSwift
+import UIKit
 
 typealias Day = Int
 
-class ProductImage: Object {
-    @objc dynamic var imageID = ""
+class Product: Codable {
+    
+    var id: String { "\(barcode)_\(timestamp)" }
+    
+    var barcode: String
+    var timestamp: Int
+    var name: String
+    var productionDate: String
+    var shelfLifeEnd: String
+    
+    init(barcode: String) {
+        let date = Date()
+        
+        self.barcode = barcode
+        self.timestamp = Int(date.timeIntervalSince1970)
+        self.name = "# Новый продукт"
+        self.productionDate = date.string(.general)
+        self.shelfLifeEnd = date.byAddingDays(3).string(.general)
+    }
+    
+    init(template: ProductTemplate) {
+        let date = Date()
+        
+        self.barcode = template.barcode
+        self.timestamp = Int(date.timeIntervalSince1970)
+        self.name = template.name
+        self.productionDate = date.string(.general)
+        self.shelfLifeEnd = date.byAddingDays(template.storageDays).string(.general)
+    }
+    
 }
 
-class Product: ObjectWithId {
-
-    @objc dynamic var barcode: String = ""
-    @objc dynamic var name: String = "Новый продукт"
-
-    @objc dynamic var storageLife: StorageLife! = StorageLife()
+extension Product: Comparable {
     
-    @objc dynamic var isSaved = false
-
+    static func < (lhs: Product, rhs: Product) -> Bool {
+        lhs.timestamp < rhs.timestamp
+    }
+    
+    static func == (lhs: Product, rhs: Product) -> Bool {
+        lhs.barcode == rhs.barcode && lhs.timestamp == rhs.timestamp
+    }
+    
 }
 
 extension Product {
     
-    var productionDate: String {
-        return storageLife.productionDate.string(.general)
+    func addImage(_ image: UIImage, completion: @escaping (Bool) -> Void) {
+        FirebaseStorage.shared.saveImage(image, for: self, completion: completion)
     }
     
-    var shelfLifeEnd: String {
-        return storageLife.shelfLifeEnd.string(.general)
+    func getImage(completion: @escaping (UIImage?) -> Void) {
+        FirebaseStorage.shared.getImage(for: self, completion: completion)
     }
     
-    var savedImagesCount: Int {
-        return ProductsManager.getImages(for: self).count
+    func setName(_ name: String) {
+        self.name = name
+        ProductsManager.shared.synchronizeProduct(self)
     }
     
-    var images: [UIImage] {
-        var savedImages = ProductsManager.getImages(for: self)
+    func setProductionDate(_ date: Date) {
+        productionDate = date.string(.general)
         
-        if savedImages.count == 0 {
-            if let barcodeImage = EAN13Generator.generateImage(fromNumber: barcode, size: CGSize(width: 800, height: 450)) {
-                savedImages = [barcodeImage]
+        if date > shelfLifeEnd.date() {
+            shelfLifeEnd = date.byAddingDays(1).string(.general)
+        }
+        
+        if let template = TemplatesManager.shared.template(for: self.barcode) {
+            shelfLifeEnd = date.byAddingDays(template.storageDays).string(.general)
+        }
+        
+        ProductsManager.shared.synchronizeProduct(self)
+    }
+    
+    func setShelfLifeEndDate(_ date: Date) {
+        shelfLifeEnd = date.string(.general)
+        
+        if date < productionDate.date() {
+            if let template = TemplatesManager.shared.template(for: self.barcode) {
+                productionDate = date.byAddingDays(-template.storageDays).string(.general)
+            } else {
+                productionDate = date.byAddingDays(-1).string(.general)
             }
         }
         
-        return savedImages
+        ProductsManager.shared.synchronizeProduct(self)
     }
     
-    func addImage(_ image: UIImage) {
-        ProductsManager.saveImage(image, for: self)
-    }
+}
+
+extension Encodable {
     
-    func removeImage(_ image: ProductImage) { }
+    func asDictionary() -> [String : Any] {
+        let data = try! JSONEncoder().encode(self)
+        return try! JSONSerialization.jsonObject(with: data, options: .allowFragments) as! [String : Any]
+    }
     
 }

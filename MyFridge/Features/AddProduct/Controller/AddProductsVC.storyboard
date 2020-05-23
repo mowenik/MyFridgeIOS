@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
-    <device id="retina6_1" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -31,7 +29,7 @@
                                 <rect key="frame" x="0.0" y="88" width="414" height="774"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="gxY-e8-aZK">
-                                        <rect key="frame" x="30" y="219" width="354" height="236"/>
+                                        <rect key="frame" x="30" y="207.5" width="354" height="259"/>
                                         <subviews>
                                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder_barcode" translatesAutoresizingMaskIntoConstraints="NO" id="9nw-qo-0xw">
                                                 <rect key="frame" x="0.0" y="0.0" width="354" height="180.5"/>
@@ -39,8 +37,8 @@
                                                     <constraint firstAttribute="width" secondItem="9nw-qo-0xw" secondAttribute="height" multiplier="15:8" constant="16" id="j4K-cX-1cB"/>
                                                 </constraints>
                                             </imageView>
-                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Отсканируйте товары, нажав на кнопку добавить внизу экрана!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVS-kw-69r">
-                                                <rect key="frame" x="35" y="190.5" width="284" height="45.5"/>
+                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Отсканируйте товары, нажав на кнопку добавления внизу экрана!" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PVS-kw-69r">
+                                                <rect key="frame" x="35" y="190.5" width="284" height="68.5"/>
                                                 <fontDescription key="fontDescription" type="system" weight="light" pointSize="19"/>
                                                 <nil key="textColor"/>
                                                 <nil key="highlightedColor"/>
@@ -67,14 +65,15 @@
                                 </constraints>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MmD-I8-bch" customClass="ButtonWithAnimate" customModule="MyFridge" customModuleProvider="target">
-                                <rect key="frame" x="132" y="796" width="150" height="36"/>
+                                <rect key="frame" x="344" y="782" width="50" height="50"/>
                                 <color key="backgroundColor" red="0.1764705882352941" green="0.36470588235294116" blue="0.48627450980392156" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="150" id="n47-9X-CPR"/>
-                                    <constraint firstAttribute="height" constant="36" id="vZf-zU-xwW"/>
+                                    <constraint firstAttribute="width" constant="50" id="n47-9X-CPR"/>
+                                    <constraint firstAttribute="height" constant="50" id="vZf-zU-xwW"/>
                                 </constraints>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="17"/>
-                                <state key="normal" title="Добавить">
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="50"/>
+                                <inset key="titleEdgeInsets" minX="2" minY="0.0" maxX="0.0" maxY="7"/>
+                                <state key="normal" title="+">
                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 </state>
                                 <userDefinedRuntimeAttributes>
@@ -90,7 +89,6 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="MmD-I8-bch" firstAttribute="centerX" secondItem="lNa-2p-cs9" secondAttribute="centerX" id="3wa-5D-Buy"/>
                             <constraint firstItem="lNa-2p-cs9" firstAttribute="bottom" secondItem="Zzd-GT-QS3" secondAttribute="bottom" id="Aog-hu-AR8"/>
                             <constraint firstItem="lNa-2p-cs9" firstAttribute="trailing" secondItem="Zzd-GT-QS3" secondAttribute="trailing" id="Fdr-7R-vPG"/>
                             <constraint firstItem="Zzd-GT-QS3" firstAttribute="top" secondItem="lNa-2p-cs9" secondAttribute="top" id="IbK-cl-yB3"/>
@@ -100,6 +98,7 @@
                             <constraint firstItem="56j-aJ-iWR" firstAttribute="top" secondItem="sms-Kd-lIK" secondAttribute="top" id="aul-Q1-H31"/>
                             <constraint firstItem="lNa-2p-cs9" firstAttribute="trailing" secondItem="56j-aJ-iWR" secondAttribute="trailing" id="eIM-So-j4t"/>
                             <constraint firstItem="lNa-2p-cs9" firstAttribute="bottom" secondItem="MmD-I8-bch" secondAttribute="bottom" constant="30" id="ypN-Ns-KAc"/>
+                            <constraint firstItem="lNa-2p-cs9" firstAttribute="trailing" secondItem="MmD-I8-bch" secondAttribute="trailing" constant="20" id="zpp-ey-QYX"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="lNa-2p-cs9"/>
                     </view>

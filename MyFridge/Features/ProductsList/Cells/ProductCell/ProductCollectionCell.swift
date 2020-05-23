@@ -7,7 +7,6 @@
 //
 
 import UIKit
-import AlamofireImage
 
 class ProductCollectionCell: UICollectionViewCell {
     
@@ -21,7 +20,8 @@ class ProductCollectionCell: UICollectionViewCell {
     }
     
     func setup(withProduct product: Product) {
-        productImage.image = product.images.last
+        productImage.setImage(for: product)
+        
         productName.text = product.name
         shelfLifeLabel.text = "до \(product.shelfLifeEnd)"
     }

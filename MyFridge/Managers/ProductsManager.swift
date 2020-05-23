@@ -1,186 +1,98 @@
-import RealmSwift
+import Foundation
 
 class ProductsManager {
     
-    static var realm: Realm {
-        return try! Realm()
+    static let shared = ProductsManager()
+    
+    var products: [Product] = [] {
+        didSet { NotificationsManager.shared.sheduleNotifications(for: products) }
     }
     
-    // MARK: Get products
-    
-    static func getSavedProducts() -> [Product] {
-        return getProducts(isSaved: true)
-    }
-    
-    static func getUnsavedProducts() -> [Product] {
-        return getProducts(isSaved: false)
-    }
-    
-    static private func getProducts(isSaved: Bool) -> [Product] {
-        let results = realm.objects(Product.self).filter("isSaved == \(isSaved)")
-        return Array(results)
-    }
-    
-    // MARK: Get templates
-    
-    static func getTemplates() -> [ProductTemplate] {
-        let results = realm.objects(ProductTemplate.self)
-        return Array(results)
-    }
-    
-    static func getTemplate(for barcode: String) -> ProductTemplate? {
-        let allTemplates = getTemplates()
-        return allTemplates.first { template in
-            return template.barcode == barcode
+    func updateProducts(_ completion: @escaping ([Product]) -> Void) {
+        API.Products.All().execute { response in
+            defer { completion(self.products) }
+            
+            guard case .success(let result) = response else {
+                self.products = []
+                return
+            }
+            
+            self.products = result.sorted(by: <)
         }
     }
     
-    // MARK: Create
-    
-    static func createProduct(with barcode: String = "") -> Product {
-        let product = Product()
-        product.barcode = barcode
+    func saveProducts(_ products: [Product], _ completion: @escaping (Bool) -> Void) {
+        self.products.append(contentsOf: products)
         
-        if let template = getTemplate(for: barcode) {
-            product.name = template.name
-            product.storageLife.productionDate = Date()
-            product.storageLife.shelfLifeEnd = Date().byAddingDays(template.storageDays)
-            product.storageLife.storageAfterOpening = template.storageAfterOpening
+        API.Products.SaveArray(products: self.products).execute { response in
+            switch response {
+            case .success(_):
+                completion(true)
+            case .error(_):
+                completion(false)
+            }
         }
+    }
+    
+    func createProduct(with barcode: String) -> Product {
+        let product: Product
         
-        try! realm.write {
-            realm.add(product)
+        if let template = TemplatesManager.shared.template(for: barcode) {
+            product = Product(template: template)
+        } else {
+            product = Product(barcode: barcode)
         }
         
         return product
     }
     
-    static func createTemplate(with product: Product) {
-        let template = ProductTemplate()
-        let storage = product.storageLife!
-        let storageDays = storage.productionDate.difference(to: storage.shelfLifeEnd)
-        
-        template.name = product.name
-        template.barcode = product.barcode
-        template.storageDays = storageDays
-        template.storageAfterOpening = storage.storageAfterOpening
-        
-        try! realm.write {
-            realm.add(template)
-        }
+    func synchronizeProduct(_ product: Product) {
+        saveProducts([]) { _ in }
     }
     
-    // MARK: Edit
-    
-    static func setName(_ name: String, for product: Product) {
-        try! realm.write {
-            product.name = name
-        }
+    func removeProduct(_ product: Product,  _ completion: @escaping (Bool) -> Void) {
+        products.removeAll { $0 == product }
+        saveProducts([]) { success in completion(success) }
     }
     
-    static func setProductionDate(_ date: Date, for product: Product) {
-        if date > product.storageLife.shelfLifeEnd {
-            return
-        }
-        
-        let storageDays = product.storageLife.productionDate.difference(to: product.storageLife.shelfLifeEnd)
-        
-        try! realm.write {
-            product.storageLife.productionDate = date
-        }
+}
 
-        setShelfLifeEndDate(date.byAddingDays(storageDays), for: product)
-        updateDaysAfterOpening(for: product)
+class TemplatesManager {
+    
+    static let shared = TemplatesManager()
+    
+    var templates: [ProductTemplate] = []
+    
+    
+    // MARK: - Templates.
+    
+    func template(for barcode: String) -> ProductTemplate? {
+        templates.last { $0.barcode == barcode }
     }
     
-    static func setShelfLifeEndDate(_ date: Date, for product: Product) {
-        if date < product.storageLife.productionDate {
-            return
-        }
-        
-        try! realm.write {
-            product.storageLife.shelfLifeEnd = date
-        }
-        
-        updateDaysAfterOpening(for: product)
-    }
-    
-    static func updateDaysAfterOpening(for product: Product) {
-        let production = product.storageLife.productionDate
-        let shelfLifeEnd = product.storageLife.shelfLifeEnd
-        let difference = production.difference(to: shelfLifeEnd)
-        
-        if difference > product.storageLife.storageAfterOpening {
-            try! realm.write {
-                product.storageLife.storageAfterOpening = difference
+    func updateTemplates() {
+        API.Templates.All().execute { response in
+            guard case .success(let result) = response else {
+                return
             }
-        }
-    }
-    
-    static func saveProducts(_ products: [Product]) {
-        try! realm.write {
-            for product in products {
-                product.isSaved = true
-            }
-        }
-    }
-    
-    // MARK: Remove
-    
-    static func remove(_ product: Product) {
-        try! realm.write {
-            realm.delete(product)
-        }
-    }
-    
-    // MARK: Images
-    
-    static func getImages(for product: Product) -> [UIImage] {
-        let fileManager = FileManager.default
-        let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask)
-        
-        guard let directory = documents.first else {
-            return [UIImage]()
-        }
-        
-        var images = [UIImage]()
-        
-        do {
-            let productFolder = directory.appendingPathComponent(product.barcode)
-            let imagesURLs = try fileManager.contentsOfDirectory(at: productFolder, includingPropertiesForKeys: nil)
             
-            for imageURL in imagesURLs {
-                if let image = UIImage(contentsOfFile: imageURL.path) {
-                    images.append(image)
-                }
-            }
-        } catch {
-            print("Error getting image:", error)
+            self.templates = result
         }
-        
-        return images
     }
     
-    static func saveImage(_ image: UIImage, for product: Product) {
-        let fileManager = FileManager.default
-        let documents = fileManager.urls(for: .documentDirectory, in: .userDomainMask).first!
-        let productFolder = documents.appendingPathComponent(product.barcode)
+    func createTemplate(with product: Product, completion: @escaping (Bool) -> Void) {
+        templates.removeAll { $0 == product }
         
-        if !fileManager.fileExists(atPath: productFolder.path) {
-            try? fileManager.createDirectory(at: productFolder, withIntermediateDirectories: false, attributes: nil)
-        }
+        let template = ProductTemplate(product: product)
         
-        let imageName = "\(product.images.count).jpg"
-        let fileURL = productFolder.appendingPathComponent(imageName)
-        let imageData = image.jpegData(compressionQuality:  1.0)
-        let isExists = FileManager.default.fileExists(atPath: fileURL.path)
+        templates.append(template)
         
-        if let data = imageData, !isExists {
-            do {
-                try data.write(to: fileURL)
-                print("Image saved")
-            } catch {
-                print("Error saving image:", error)
+        API.Templates.SaveArray(templates: templates).execute { response in
+            switch response {
+            case .success(_):
+                completion(true)
+            case .error(_):
+                completion(false)
             }
         }
     }

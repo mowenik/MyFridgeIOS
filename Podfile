@@ -3,8 +3,13 @@ platform :ios, '11.0'
 target 'MyFridge' do
   use_frameworks!
 
-  pod 'Alamofire', '4.8.2'
-  pod 'AlamofireImage', '3.5.2'
-  pod 'RealmSwift', '3.15.0'
+  pod 'Alamofire', '4.9.1'
+  
+  pod 'Bagel'
+  pod 'SDWebImage'
+  pod 'MBProgressHUD'
+  
+  pod 'Firebase/Storage'
+  pod 'Firebase/Database'
 
 end

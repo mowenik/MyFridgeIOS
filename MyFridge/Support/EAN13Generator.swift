@@ -85,7 +85,7 @@ struct EAN13Generator {
         
         let barcodeView = UIView(frame: CGRect(origin: .zero, size: size))
         //Barcode consists of begining (3 stripes), left part (6 digits, 7 stripe each), middle (5 stripes), right part (6 digits, 7 stripes each) and end (3 stripes)
-        let singleStripeWidth = size.width / (3 + 6*7 + 5 + 6*7 + 3)
+        let singleStripeWidth = size.width / (95)
         let leftPartCode = ean13LeftPartStructure[digitsArray[0]]!
         
         func stripeView(forIndex index: Int, shouldBeBlack: Bool) -> UIView {

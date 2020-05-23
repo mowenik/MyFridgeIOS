@@ -18,7 +18,8 @@ class NewProductTableCell: UITableViewCell {
     func setup(withProduct product: Product) {
         selectionStyle = .none
         
-        productImageView.image = product.images.last
+        self.productImageView.setImage(for: product)
+
         nameLabel.text = product.name
         productionDateLabel.text = "Произведен – \(product.productionDate)"
         shelfLifeEndLabel.text = "Годен до – \(product.shelfLifeEnd)"
