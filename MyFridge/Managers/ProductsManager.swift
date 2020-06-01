@@ -28,7 +28,7 @@ class ProductsManager {
             switch response {
             case .success(_):
                 completion(true)
-            case .error(_):
+            case .error(_, _):
                 completion(false)
             }
         }

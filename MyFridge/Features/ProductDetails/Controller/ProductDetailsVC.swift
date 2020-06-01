@@ -151,9 +151,7 @@ class ProductDetailsVC: BaseVC {
         let alert = UIAlertController(style: .actionSheet)
         
         let save = UIAlertAction(title: "Сохранить как шаблон", style: .default) { action in
-            TemplatesManager.shared.createTemplate(with: self.product) { [weak self] template in
-                // TODO: add template to templates
-            }
+            TemplatesManager.shared.createTemplate(with: self.product) { _ in }
         }
         let addImage = UIAlertAction(title: "Добавить фото", style: .default) { action in
             self.showImagePicker()
@@ -187,21 +185,17 @@ class ProductDetailsVC: BaseVC {
 
 // MARK: UITextFieldDelegate
 extension ProductDetailsVC: UITextFieldDelegate {
-    
     func textFieldDidEndEditing(_ textField: UITextField, reason: UITextField.DidEndEditingReason) {
         guard let name = textField.text, name.count > 0 else {
             textField.text = product.name
             return
         }
-        
         product.setName(name) 
     }
-    
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
         return true
     }
-    
 }
 
 // MARK: UIScrollViewDelegate
